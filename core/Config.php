@@ -6,4 +6,4 @@ define("CSS_DIRECTORY" , "../public/css/output.css");
 define("HOST", "localhost");
 define("PASSWORD", "");
 define("USERNAME", "root");
-define("DATABASE", "digikala");
+define("DATABASE", "test");
