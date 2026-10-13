@@ -1,0 +1,98 @@
+# =========================
+
+# Dependencies
+
+# =========================
+
+/node_modules/
+/vendor/
+
+# =========================
+
+# Environment variables
+
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+
+# IDEs and editors
+
+# =========================
+
+/.vscode/
+/.idea/
+
+# =========================
+
+# Operating system files
+
+# =========================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+
+# Logs
+
+# =========================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# =========================
+
+# Build artifacts
+
+# =========================
+
+/dist/
+/build/
+
+# =========================
+
+# Temporary files
+
+# =========================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+
+# =========================
+
+# PHP
+
+# =========================
+
+/.phpunit.cache/
+/.phpunit.result.cache
+composer.phar
+
+# =========================
+
+# Database backups
+
+# =========================
+
+*.sql~
+*.sqlite-wal
+*.sqlite-shm
+
+# =========================
+
+# Generated files
+
+# =========================
+
+/public/storage/
+/storage/logs/
