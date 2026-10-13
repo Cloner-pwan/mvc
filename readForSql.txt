@@ -1,1 +1,12 @@
-The sql directories are only made to keep the backup during the development . this directory must be deleted after any type of upgrades or developments. Don't forget to keep the backups somewhere safe . 
+Core:
+: The core files contains the Router, Controller, Database, Config all written in PHP. 
+: The DataBase Connects you to the DataBase using PDO. * | maybe i develop it later ! | *
+: all views require an head directory. like => app/views/admin/login.php , app/views/home/index
+: All Controllers need to be wriiten uppercase like the sake type . exp => HomeController , AdminController
+: the word 'Controller' must be uppercase too or it won't be accessible for router.    
+
+Tailwind : 
+: The tailwind is installed on this project by default . 
+
+SQL : 
+: The sql directories are only made to keep the backup during the development . this directory must be deleted after any type of upgrades or developments. Don't forget to keep the backups somewhere safe . just thinking about something neat and clean.
