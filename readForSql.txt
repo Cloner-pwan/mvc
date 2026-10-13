@@ -1,0 +1,1 @@
+The sql directories are only made to keep the backup during the development . this directory must be deleted after any type of upgrades or developments. Don't forget to keep the backups somewhere safe . 
