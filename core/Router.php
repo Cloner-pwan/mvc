@@ -1,4 +1,5 @@
 <?php
+// the router considers the public folder as the Root directory of project !!!!!
 class Router
 {
     public static function route()

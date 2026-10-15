@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Page Not Found</title>
 
-    <link rel="stylesheet" href="<?= CSS_DIRECTORY ?>">
+    <link rel="stylesheet" href="<?= TAILWIND_DIRECTORY ?>">
     <script src="<?= JS_DIRECTORY ?>notFound.js" type="module" defer></script>
 </head>
 
