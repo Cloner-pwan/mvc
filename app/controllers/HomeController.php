@@ -6,4 +6,9 @@ class HomeController extends Controller
     {
         echo "hi ! this is index";
     }
+
+    public function data()
+    {
+        $this->render("home", "data");
+    }
 }

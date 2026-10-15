@@ -7,4 +7,4 @@ define("CSS_DIRECTORY", URL_ROOT . "css/");
 define("HOST", "localhost");
 define("PASSWORD", "");
 define("USERNAME", "root");
-define("DATABASE", "test");
+define("DATABASE", "w3schools");
