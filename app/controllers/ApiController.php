@@ -3,22 +3,25 @@ class ApiController extends Controller
 {
     public function customers(?int $id = null)
     {
-        header('Content-Type: application/json');
 
-        $limit = isset($_GET['limit']) ? filter_var($_GET['limit'], FILTER_VALIDATE_INT) :
-            null;
+        $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : null;
+        $offset = (int) ($_GET['offset'] ?? 0);
 
-        $offset = isset($_GET['offset']) ? filter_var($_GET['offset'], FILTER_VALIDATE_INT) : 0;
+        $data = API::GET("customers", $limit, $offset, $id, "CustomerID");
 
-        $model = new ApiModel();
+        echo $data;
 
-        if ($id !== null) {
-            $data = $model->GET("customers", null, 0, $id, "CustomerID");
-        } else {
-            $data = $model->GET("customers", $limit, $offset);
-        }
+    }
+
+    public function products(?int $id = null)
+    {
+        $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : null;
+        $offset = (int) ($_GET['offset'] ?? 0);
+
+        $data = API::GET("products", $limit, $offset, $id, "ProductID");
+
+        echo $data;
 
 
-        echo json_encode($data);
     }
 }

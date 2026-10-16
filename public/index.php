@@ -4,6 +4,7 @@ require_once "../core/Controller.php";
 require_once "../core/Router.php";
 require_once "../core/Config.php";
 require_once "../core/DataBase.php";
+require_once "../core/Api.php";
 
 spl_autoload_register(function ($class) {
 

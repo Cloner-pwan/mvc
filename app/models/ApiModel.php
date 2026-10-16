@@ -9,7 +9,6 @@ class ApiModel
         ?int $findByID = null,
         ?string $idName = "id"
     ) {
-
         $dsn = DataBase::connect();
         $query = "SELECT * FROM $tableName";
 
