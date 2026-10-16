@@ -25,4 +25,12 @@ class API
         return json_encode($data);
     }
 
+    public static function POST($tableName, $colsName = [], $data = [])
+    {
+        $model = new ApiModel();
+        $insert = $model->POST($tableName, $colsName, $data);
+        return $insert;
+
+    }
+
 }

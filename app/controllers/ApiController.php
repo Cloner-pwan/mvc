@@ -24,4 +24,16 @@ class ApiController extends Controller
 
 
     }
+
+    public function addProducts()
+    {
+        $colsName = ['ProductName', 'SupplierID', 'CategoryID', 'Unit', 'Price'];
+        $data = ['Iphone 15 PRO MAX', 1, 1, '12 boxes', 20];
+        $insert = Api::POST('products', $colsName, $data);
+    }
+
+
+    public function test()
+    {
+    }
 }

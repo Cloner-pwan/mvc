@@ -28,4 +28,25 @@ class ApiModel
         return $stmt->fetchAll(PDO::FETCH_OBJ);
 
     }
+
+    public function POST($tableName, $colsName = [], $data = [])
+    {
+        $dsn = DataBase::connect();
+
+        if (count($colsName) !== count($data)) {
+            return false;
+        }
+
+        $tableCols = '`' . implode('`,`', $colsName) . "`";
+        $values = implode(',', array_fill(0, count($colsName), '?'));
+
+        $stmt = $dsn->prepare("INSERT INTO $tableName
+        ($tableCols)
+        VALUES ($values)
+        ")
+        ;
+        
+        return $stmt->execute($data);
+
+    }
 }
