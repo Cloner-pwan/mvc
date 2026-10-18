@@ -27,13 +27,44 @@ class ApiController extends Controller
 
     public function addProducts()
     {
-        $colsName = ['ProductName', 'SupplierID', 'CategoryID', 'Unit', 'Price'];
-        $data = ['Iphone 15 PRO MAX', 1, 1, '12 boxes', 20];
-        $insert = Api::POST('products', $colsName, $data);
+        header("Content-Type: application/json");
+
+        if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+            return $this->json(['error' => "Method not allowed"], 405);
+        }
+
+        $body = json_decode(file_get_contents("php://input"), true);
+
+        if (!isset($body['colsName'], $body['data'])) {
+            return $this->json(['error' => "Invalid Body !"], 400);
+        }
+
+        try {
+
+            $insert = Api::POST('products', $body['colsName'], $body['data']);
+            return $this->json(['success' => true], 201);
+
+        } catch (InvalidArgumentException $e) {
+
+            return $this->json(['error' => $e->getMessage()], 422);
+
+        } catch (PDOException $e) {
+
+            error_log($e->getMessage());
+            return $this->json(['error' => 'DataBase Error !'], 500);
+
+        }
+
+        // $colsName = ['ProductName', 'SupplierID', 'CategoryID', 'Unit', 'Price'];
+        // $data = ['Iphone 15 PRO MAX', 1, 1, '12 boxes', 20];
+        // $insert = Api::POST('products', $colsName, $data);
     }
 
 
-    public function test()
+    private function json(array $payload, int $status = 200)
     {
+        http_response_code($status);
+        echo json_encode($payload);
+        exit;
     }
 }

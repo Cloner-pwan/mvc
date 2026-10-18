@@ -29,7 +29,7 @@ class ApiModel
 
     }
 
-    public function POST($tableName, $colsName = [], $data = [])
+    public function POST(string $tableName, array $colsName = [], array $data = [])
     {
         $dsn = DataBase::connect();
 
@@ -38,15 +38,15 @@ class ApiModel
         }
 
         $tableCols = '`' . implode('`,`', $colsName) . "`";
-        $values = implode(',', array_fill(0, count($colsName), '?'));
+        $placeholders = implode(',', array_fill(0, count($colsName), '?'));
 
-        $stmt = $dsn->prepare("INSERT INTO $tableName
-        ($tableCols)
-        VALUES ($values)
-        ")
-        ;
-        
-        return $stmt->execute($data);
+        $values = [];
+        foreach ($colsName as $i => $col) {
+            $values[] = $data[$col] ?? $data[$i] ?? null;
+        }
+
+        $stmt = $dsn->prepare("INSERT INTO `$tableName` ($tableCols) VALUES ($placeholders)");
+        return $stmt->execute($values);
 
     }
 }
