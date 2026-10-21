@@ -49,4 +49,48 @@ class ApiModel
         return $stmt->execute($values);
 
     }
+
+    public function PATCH(
+        string $tableName,
+        int $id,
+        array $colsName = [],
+        array $data = [],
+        ?string $idName = "id"
+    ) {
+        $dsn = DataBase::connect();
+
+        $save = [];
+
+        if (count($colsName) !== count($data) || empty($colsName) || empty($data)) {
+            return false;
+        }
+
+        foreach ($colsName as $col => $value) {
+            $col = "`" . $value . "`";
+            array_push($save, $col);
+        }
+
+        $counter = 0;
+        $dump = "";
+
+        foreach ($save as $i => $value) {
+            $dump .= $value . " = " . ":value$counter" . ",";
+            $counter++;
+        }
+
+        $dump = substr($dump, 0, -1);
+
+
+
+        $stmt = $dsn->prepare("UPDATE $tableName SET $dump WHERE $idName = :id");
+        
+        foreach ($data as $i => $value) {
+            $stmt->bindValue(":value$i", $value);
+        }
+
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+
+    }
 }

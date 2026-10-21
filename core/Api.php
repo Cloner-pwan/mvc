@@ -33,4 +33,12 @@ class API
 
     }
 
+    public static function UPDATE($tableName, $id, $colsName = [], $data = [], $idName)
+    {
+        $model = new ApiModel();
+        $update = $model->PATCH($tableName, $id, $colsName, $data, $idName);
+        return $update;
+
+    }
+
 }
