@@ -33,11 +33,20 @@ class API
 
     }
 
-    public static function UPDATE($tableName, $id, $colsName = [], $data = [], $idName)
+    public static function PATCH(string $tableName, int $id, array $colsName = [], array $data = [], string $idName)
     {
         $model = new ApiModel();
         $update = $model->PATCH($tableName, $id, $colsName, $data, $idName);
         return $update;
+
+    }
+
+    public static function DELETE(string $tableName, int $id, string $idName = "id")
+    {
+
+        $model = new ApiModel();
+        $delete = $model->DELETE($tableName, $id, $idName);
+        return $delete;
 
     }
 

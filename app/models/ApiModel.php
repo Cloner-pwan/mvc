@@ -83,7 +83,7 @@ class ApiModel
 
 
         $stmt = $dsn->prepare("UPDATE $tableName SET $dump WHERE $idName = :id");
-        
+
         foreach ($data as $i => $value) {
             $stmt->bindValue(":value$i", $value);
         }
@@ -92,5 +92,18 @@ class ApiModel
 
         return $stmt->execute();
 
+    }
+
+    public function DELETE(string $tableName, int $id, ?string $idName = "id"): int
+    {
+
+        $dsn = DataBase::connect();
+        $stmt = $dsn->prepare("DELETE FROM $tableName WHERE `$idName` = :id");
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // if the row is deleted , rowCount returns 1 else returns 0;
+        return $stmt->rowCount();
+        
     }
 }

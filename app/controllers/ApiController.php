@@ -76,7 +76,7 @@ class ApiController extends Controller
 
         try {
 
-            $update = API::UPDATE($tableName, $id, $body['colsName'], $body['data'], 'ProductID');
+            $update = API::PATCH($tableName, $id, $body['colsName'], $body['data'], 'ProductID');
             return $this->json(['success' => true], 201);
 
         } catch (InvalidArgumentException $e) {
@@ -88,6 +88,34 @@ class ApiController extends Controller
             error_log($e->getMessage());
             return $this->json(['error' => $e->getMessage()], 500);
 
+        }
+    }
+
+    public function delete(?int $id)
+    {
+        header("Content-Type: application/json");
+
+        if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
+            return $this->json(['error' => 'Method not allowed'], 405);
+        }
+
+        if ((int) $id < 1 || !ctype_digit((string) $id)) {
+            return $this->json(['error' => 'Invalid ID'], 400);
+        }
+
+        try {
+            $delete = API::DELETE('products', $id, 'ProductID');
+            if ($delete === 0) {
+                return $this->json(['error' => 'Product not found !'], 404);
+            } else {
+                return $this->json(['success' => 'Product deleted successfully !'], 200);
+            }
+
+        } catch (InvalidArgumentException $e) {
+            return $this->json(['error' => $e->getMessage()], 422);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return $this->json(['error' => 'Database erorr !'], 500);
         }
     }
 
