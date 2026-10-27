@@ -1,6 +1,7 @@
 <?php
 class ApiController extends Controller
 {
+
     public function customers(?int $id = null)
     {
 
@@ -115,7 +116,7 @@ class ApiController extends Controller
             return $this->json(['error' => $e->getMessage()], 422);
         } catch (PDOException $e) {
             error_log($e->getMessage());
-            return $this->json(['error' => 'Database erorr !'], 500);
+            return $this->json(['error' => 'Database Error !'], 500);
         }
     }
 

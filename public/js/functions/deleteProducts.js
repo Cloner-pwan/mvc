@@ -1,5 +1,5 @@
 let deleteProduct = async () => {
-  const id = 77;
+  const id = 79;
   let config = {
     method: "DELETE",
     Headers: { "Content-type": "application/json" },

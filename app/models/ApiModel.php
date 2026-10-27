@@ -9,23 +9,24 @@ class ApiModel
         ?int $findByID = null,
         ?string $idName = "id"
     ) {
-        $dsn = DataBase::connect();
-        $query = "SELECT * FROM $tableName";
+        
+        // $dsn = DataBase::connect();
+        // $query = "SELECT * FROM $tableName";
 
-        if ($limit !== null) {
-            $query .= " LIMIT $limit OFFSET $offset";
-            $stmt = $dsn->query($query);
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        }
+        // if ($limit !== null) {
+        //     $query .= " LIMIT $limit OFFSET $offset";
+        //     $stmt = $dsn->query($query);
+        //     return $stmt->fetchAll(PDO::FETCH_OBJ);
+        // }
 
-        if ($findByID !== null) {
-            $query .= " WHERE $idName = $findByID";
-            $stmt = $dsn->query($query);
-            return $stmt->fetch(PDO::FETCH_OBJ);
-        }
+        // if ($findByID !== null) {
+        //     $query .= " WHERE $idName = $findByID";
+        //     $stmt = $dsn->query($query);
+        //     return $stmt->fetch(PDO::FETCH_OBJ);
+        // }
 
-        $stmt = $dsn->query($query);
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        // $stmt = $dsn->query($query);
+        // return $stmt->fetchAll(PDO::FETCH_OBJ);
 
     }
 
@@ -101,9 +102,9 @@ class ApiModel
         $stmt = $dsn->prepare("DELETE FROM $tableName WHERE `$idName` = :id");
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         // if the row is deleted , rowCount returns 1 else returns 0;
         return $stmt->rowCount();
-        
+
     }
 }
