@@ -6,10 +6,39 @@ class ApiModel
         string $tableName,
         ?int $limit = null,
         int $offset = 0,
-        ?int $findByID = null,
-        ?string $idName = "id"
+        ?int $id = null,
     ) {
-        
+        Schema::assertCan($tableName, $id === null ? 'list' : 'show');
+        $cols = "`" . implode("`,`", Schema::columns($tableName, 'read')) . "`";
+        $pk = Schema::pk($tableName);
+        $pdo = DataBase::connect();
+
+        if ($id !== null) {
+            $stmt = $pdo->prepare("SELECT $cols FROM `$tableName` WHERE `$pk` = :id");
+            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ) ?: null;
+        }
+
+        if ($limit < 1 || $limit === null) {
+            $limit = 50;
+        }
+
+        if ($limit > 100) {
+            $limit = 100;
+        }
+
+        if ($offset < 0) {
+            $offset = 0;
+        }
+
+
+        $stmt = $pdo->prepare("SELECT $cols FROM `$tableName` LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(":limit", $limit);
+        $stmt->bindValue(":offset", $offset);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+
         // $dsn = DataBase::connect();
         // $query = "SELECT * FROM $tableName";
 

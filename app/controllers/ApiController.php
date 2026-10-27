@@ -120,6 +120,14 @@ class ApiController extends Controller
         }
     }
 
+    public function employee(?int $id = null)
+    {
+        $limit = isset($_GET['limit']) === true ? (int) $_GET['limit'] : null;
+        $offset = isset($_GET['offset']) === true ? (int) $_GET['offset'] : 0;
+
+        $data = API::GET("employees", $limit, $offset, $id);
+        echo $data;
+    }
 
     private function json(array $payload, int $status = 200)
     {
