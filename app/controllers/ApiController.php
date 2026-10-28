@@ -8,7 +8,7 @@ class ApiController extends Controller
         $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : null;
         $offset = (int) ($_GET['offset'] ?? 0);
 
-        $data = API::GET("customers", $limit, $offset, $id, "CustomerID");
+        $data = API::GET("customers", $limit, $offset, $id);
 
         echo $data;
 
@@ -19,7 +19,7 @@ class ApiController extends Controller
         $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : null;
         $offset = (int) ($_GET['offset'] ?? 0);
 
-        $data = API::GET("products", $limit, $offset, $id, "ProductID");
+        $data = API::GET("products", $limit, $offset, $id);
 
         echo $data;
 
