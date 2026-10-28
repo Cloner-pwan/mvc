@@ -16,10 +16,10 @@ class API
         return json_encode($data);
     }
 
-    public static function POST($tableName, $colsName = [], $data = [])
+    public static function POST($tableName, $data = [])
     {
         $model = new ApiModel();
-        $insert = $model->POST($tableName, $colsName, $data);
+        $insert = $model->POST($tableName, $data);
         return $insert;
 
     }

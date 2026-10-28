@@ -31,34 +31,26 @@ class ApiController extends Controller
         header("Content-Type: application/json");
 
         if ($_SERVER['REQUEST_METHOD'] !== "POST") {
-            return $this->json(['error' => "Method not allowed"], 405);
+            return $this->json(['error' => 'Method not allowed'], 405);
         }
 
-        $body = json_decode(file_get_contents("php://input"), true);
+        $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($body['colsName'], $body['data'])) {
-            return $this->json(['error' => "Invalid Body !"], 400);
+        if (!is_array($data) || empty($data)) {
+            return $this->json(['error' => 'Invalid body'], 400);
         }
 
         try {
-
-            $insert = Api::POST('products', $body['colsName'], $body['data']);
-            return $this->json(['success' => true], 201);
+            $id = API::POST('products', $data);
+            return $this->json(['success' => true, 'id' => $id], 201);
 
         } catch (InvalidArgumentException $e) {
-
             return $this->json(['error' => $e->getMessage()], 422);
 
         } catch (PDOException $e) {
-
             error_log($e->getMessage());
-            return $this->json(['error' => 'DataBase Error !'], 500);
-
+            return $this->json(['error' => 'Database error'], 500);
         }
-
-        // $colsName = ['ProductName', 'SupplierID', 'CategoryID', 'Unit', 'Price'];
-        // $data = ['Iphone 15 PRO MAX', 1, 1, '12 boxes', 20];
-        // $insert = Api::POST('products', $colsName, $data);
     }
 
     public function update($tableName, $id)

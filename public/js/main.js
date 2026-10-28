@@ -8,4 +8,4 @@ import employee from "./functions/employee.js";
 // addproducts();
 // updateProducts();
 // deleteProduct();
-employee();
+// employee();

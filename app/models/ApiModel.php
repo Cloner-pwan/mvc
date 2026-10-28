@@ -59,24 +59,20 @@ class ApiModel
 
     }
 
-    public function POST(string $tableName, array $colsName = [], array $data = [])
+    public function POST(string $tableName, array $data = [])
     {
-        $dsn = DataBase::connect();
+        Schema::assertCan($tableName, 'create');
+        Schema::assertColumns($tableName, array_keys($data));
+        $clean = Schema::validate($tableName, $data, true);
 
-        if (count($colsName) !== count($data)) {
-            return false;
-        }
+        $cols = '`' . implode('`,`', array_keys($clean)) . '`';
+        $placeholders = implode(',', array_fill(0, count($clean), '?'));
 
-        $tableCols = '`' . implode('`,`', $colsName) . "`";
-        $placeholders = implode(',', array_fill(0, count($colsName), '?'));
+        $pdo = DataBase::connect();
+        $stmt = $pdo->prepare("INSERT INTO `$tableName` ($cols) VALUES ($placeholders)");
+        $stmt->execute(array_values($clean));
 
-        $values = [];
-        foreach ($colsName as $i => $col) {
-            $values[] = $data[$col] ?? $data[$i] ?? null;
-        }
-
-        $stmt = $dsn->prepare("INSERT INTO `$tableName` ($tableCols) VALUES ($placeholders)");
-        return $stmt->execute($values);
+        return $pdo->lastInsertId();
 
     }
 
