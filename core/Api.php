@@ -21,24 +21,20 @@ class API
         $model = new ApiModel();
         $insert = $model->POST($tableName, $data);
         return $insert;
-
     }
 
-    public static function PATCH(string $tableName, int $id, array $colsName = [], array $data = [], string $idName)
+    public static function PATCH(string $tableName, int $id, array $data = [])
     {
         $model = new ApiModel();
-        $update = $model->PATCH($tableName, $id, $colsName, $data, $idName);
+        $update = $model->PATCH($tableName, $id, $data);
         return $update;
-
     }
 
-    public static function DELETE(string $tableName, int $id, string $idName = "id")
+    public static function DELETE(string $tableName, int $id)
     {
-
         $model = new ApiModel();
-        $delete = $model->DELETE($tableName, $id, $idName);
+        $delete = $model->DELETE($tableName, $id);
         return $delete;
-
     }
 
 }

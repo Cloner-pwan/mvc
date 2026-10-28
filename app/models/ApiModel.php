@@ -79,52 +79,29 @@ class ApiModel
     public function PATCH(
         string $tableName,
         int $id,
-        array $colsName = [],
         array $data = [],
-        ?string $idName = "id"
     ) {
-        $dsn = DataBase::connect();
+        Schema::assertCan($tableName, 'update');
+        Schema::assertColumns($tableName, array_keys($data));
+        $clean = Schema::validate($tableName, $data, false);
 
-        $save = [];
+        $pk = Schema::pk($tableName);
+        $set = array_map(fn($col) => "`$col` = ?", array_keys($clean));
 
-        if (count($colsName) !== count($data) || empty($colsName) || empty($data)) {
-            return false;
-        }
+        $cols = implode(",", $set);
 
-        foreach ($colsName as $col => $value) {
-            $col = "`" . $value . "`";
-            array_push($save, $col);
-        }
-
-        $counter = 0;
-        $dump = "";
-
-        foreach ($save as $i => $value) {
-            $dump .= $value . " = " . ":value$counter" . ",";
-            $counter++;
-        }
-
-        $dump = substr($dump, 0, -1);
-
-
-
-        $stmt = $dsn->prepare("UPDATE $tableName SET $dump WHERE $idName = :id");
-
-        foreach ($data as $i => $value) {
-            $stmt->bindValue(":value$i", $value);
-        }
-
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
-        return $stmt->execute();
-
+        $params = array_values($clean);
+        $params[] = $id; // the last ? is the WHERE
+        $stmt = DataBase::connect()->prepare("UPDATE `$tableName` SET $cols WHERE $pk = ? ");
+        $stmt->execute($params);
+        return $stmt->rowCount();
     }
 
-    public function DELETE(string $tableName, int $id, ?string $idName = "id"): int
+    public function DELETE(string $tableName, int $id): int
     {
-
-        $dsn = DataBase::connect();
-        $stmt = $dsn->prepare("DELETE FROM $tableName WHERE `$idName` = :id");
+        Schema::assertCan($tableName, "delete");
+        $pk = Schema::pk($tableName);
+        $stmt = DataBase::connect()->prepare("DELETE FROM `$tableName` WHERE `$pk` = :id");
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 

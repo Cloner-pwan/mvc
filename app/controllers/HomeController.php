@@ -11,4 +11,9 @@ class HomeController extends Controller
     {
         $this->render("home", "data");
     }
+
+    public function test()
+    {
+        $this->render("home", "test");
+    }
 }

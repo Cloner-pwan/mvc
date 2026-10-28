@@ -61,15 +61,15 @@ class ApiController extends Controller
             return $this->json(['error' => "Method not allowed"], 405);
         }
 
-        $body = json_decode(file_get_contents("php://input"), true);
+        $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($body['colsName'], $body['data'])) {
+        if (empty($data)) {
             return $this->json(['error' => 'Invalid body !'], 400);
         }
 
         try {
 
-            $update = API::PATCH($tableName, $id, $body['colsName'], $body['data'], 'ProductID');
+            $update = API::PATCH($tableName, $id, $data);
             return $this->json(['success' => true], 201);
 
         } catch (InvalidArgumentException $e) {
@@ -84,7 +84,7 @@ class ApiController extends Controller
         }
     }
 
-    public function delete(?int $id)
+    public function delete(int $id)
     {
         header("Content-Type: application/json");
 
@@ -97,7 +97,7 @@ class ApiController extends Controller
         }
 
         try {
-            $delete = API::DELETE('products', $id, 'ProductID');
+            $delete = API::DELETE('products', $id);
             if ($delete === 0) {
                 return $this->json(['error' => 'Product not found !'], 404);
             } else {

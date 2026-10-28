@@ -1,20 +1,17 @@
 let updateProducts = async () => {
-  let body = {
-    colsName: ['ProductName'],
-    data: ['huawei y8p BLUE'],
+  let data = {
+    Price: "1100",
   };
-
   let config = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify(data),
   };
 
-  let req = await fetch("http://localhost:2004/Api/update/products/1", config);
-  
+  let req = await fetch("http://localhost:2004/Api/update/products/2", config);
+
   console.log("Status: ", req.status);
   console.log("returned : ", await req.text());
-
 };
 
 export default updateProducts;
